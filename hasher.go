@@ -38,13 +38,14 @@ func init() {
 // HashWithDefaultHasher hashes a HashRoot object with a Hasher from
 // the default HasherPool
 func HashWithDefaultHasher(v HashRoot) ([32]byte, error) {
-	hh := DefaultHasherPool.Get()
+	// hh := DefaultHasherPool.Get()
+	hh := NewHasher()
 	if err := v.HashTreeRootWith(hh); err != nil {
-		DefaultHasherPool.Put(hh)
+		// DefaultHasherPool.Put(hh)
 		return [32]byte{}, err
 	}
 	root, err := hh.HashRoot()
-	DefaultHasherPool.Put(hh)
+	// DefaultHasherPool.Put(hh)
 	return root, err
 }
 
