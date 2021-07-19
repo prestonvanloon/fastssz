@@ -42,6 +42,7 @@ func main() {
 
 	if err := encode(source, targets, output, includeList, experimental); err != nil {
 		fmt.Printf("[ERR]: %v", err)
+		os.Exit(1)
 	}
 }
 
@@ -524,8 +525,9 @@ func decodeASTStruct(file *ast.File) *astResult {
 		if genDecl, ok := dec.(*ast.GenDecl); ok {
 			for _, spec := range genDecl.Specs {
 				if typeSpec, ok := spec.(*ast.TypeSpec); ok {
+					name := fmt.Sprintf("%s.%s", file.Name.Name, typeSpec.Name.Name)
 					obj := &astStruct{
-						name: typeSpec.Name.Name,
+						name: name,
 					}
 					structType, ok := typeSpec.Type.(*ast.StructType)
 					if ok {
